@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthController::class, 'login'])
     ->middleware('throttle:15,1');
 
+Route::post('/register', [AuthController::class, 'register'])
+    ->middleware('throttle:5,1');
+
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])
     ->middleware('throttle:3,15');
 
@@ -21,10 +24,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
     Route::get('/validate-token', [AuthController::class, 'validateToken']);
     Route::get('/permissions', [AuthController::class, 'permissions']);
-});
-
-// Admin/HR only routes
-Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-    Route::post('/register', [AuthController::class, 'register'])
-        ->middleware('throttle:5,1');
 });

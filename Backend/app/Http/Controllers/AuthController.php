@@ -6,61 +6,35 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
-    /**
-     * Register a new user (Admin/HR only)
-     */
-    public function register(Request $request)
-    {
-        // Only Super Admin or HR Officer can register new users
-        if (!auth()->user() || !in_array(auth()->user()->role, ['super_admin', 'hr_officer'])) {
+    
+    public function register(RegisterRequest $request){
+        try {
+            $validated = $request->validated();
+
+            $validated["profile_picture"] = $request->hasFile('profile_picture') ?
+                $request->file('profile_picture')->store('public', 'profiles') : null;
+
+            $validated["password"] = Hash::make($validated['password']);
+
+            $register = User::create($validated);
+
             return response()->json([
-                'message' => 'Unauthorized. Only Super Admin or HR Officer can register users.'
-            ], 403);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'middle_name' => 'nullable|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'suffix' => 'nullable|string|max:10',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'nullable|in:admin,hr_officer,hr_staff,head,employee',
-        ]);
-
-        if ($validator->fails()) {
+                'status' => 1,
+                'message' => 'Registered successfully, please wait for the approval of admin.',
+                'data' => $register
+            ], 201);
+        } catch (\Throwable $e) {
             return response()->json([
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 422);
+                'status' => 0,
+                'message' => 'Server error.'
+            ], 500);
         }
-
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'last_name' => $request->last_name,
-            'suffix' => $request->suffix,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role ?? 'employee',
-            'account_status' => 'active',
-        ]);
-
-        // Generate email verification token (optional)
-        // $user->sendEmailVerificationNotification();
-
-        return response()->json([
-            'message' => 'User registered successfully.',
-            'user' => $user->only(['id', 'first_name', 'last_name', 'email', 'role']),
-        ], 201);
     }
-
-    /**
-     * Login user and create token
-     */
+    
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -115,9 +89,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Logout user (revoke token)
-     */
+   
     public function logout(Request $request)
     {
         try {
@@ -139,9 +111,7 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Get authenticated user details
-     */
+    
     public function user(Request $request)
     {
         $user = $request->user();
@@ -154,9 +124,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Change password
-     */
+    
     public function changePassword(Request $request)
     {
         $user = $request->user();
@@ -193,9 +161,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Forgot password - send reset link
-     */
+    
     public function forgotPassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -218,9 +184,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Refresh token (optional)
-     */
+    
     public function refreshToken(Request $request)
     {
         $user = $request->user();
@@ -238,9 +202,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Validate token (check if token is still valid)
-     */
+    
     public function validateToken(Request $request)
     {
         return response()->json([
@@ -249,9 +211,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Get user's permissions based on role
-     */
+    
     public function permissions(Request $request)
     {
         $user = $request->user();
@@ -263,9 +223,7 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Helper: Get permissions by role
-     */
+    
     private function getPermissionsByRole(string $role): array
     {
         $permissions = [
