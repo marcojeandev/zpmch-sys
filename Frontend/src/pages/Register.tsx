@@ -129,7 +129,7 @@ const Register = () => {
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/50 p-8">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-red-600 to-rose-600 shadow-lg shadow-red-500/25 mb-4">
-              <UserCheck className="w-7 h-7 text-white" />
+              <img className="w-10 h-10 rounded-full" src="/final-logo.jpg" alt="" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900">Create Account</h2>
             <p className="text-gray-500 text-sm mt-1">
@@ -318,23 +318,30 @@ const Register = () => {
             </div>
 
             {/* Terms & Conditions */}
-            <div className="flex items-start gap-3 mt-2">
-              <input
-                type="checkbox"
-                checked={agreeToTerms}
-                onChange={(e) => setAgreeToTerms(e.target.checked)}
-                className="mt-1 w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
-                required
-              />
-              <label className="text-sm text-gray-600">
+            <div className="flex items-start gap-3 mt-2 p-3 bg-gray-50/50 rounded-xl border border-gray-100">
+              <div className="flex items-center h-5">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={agreeToTerms}
+                  onChange={(e) => setAgreeToTerms(e.target.checked)}
+                  className="w-4 h-4 rounded border-gray-300 text-red-600 focus:ring-red-500 focus:ring-2 transition-all duration-200 cursor-pointer"
+                  required
+                />
+              </div>
+              <label htmlFor="terms" className="text-sm text-gray-600 leading-relaxed cursor-pointer select-none">
                 I agree to the{' '}
-                <Link to="/terms" className="text-red-600 hover:text-red-700 transition-colors font-medium">
+                <span 
+                  className="text-red-600 hover:text-red-700 transition-colors font-medium"
+                >
                   Terms and Conditions
-                </Link>
+                </span>
                 {' '}and{' '}
-                <Link to="/privacy" className="text-red-600 hover:text-red-700 transition-colors font-medium">
+                <span 
+                  className="text-red-600 hover:text-red-700 transition-colors font-medium"
+                >
                   Privacy Policy
-                </Link>
+                </span>
               </label>
             </div>
 

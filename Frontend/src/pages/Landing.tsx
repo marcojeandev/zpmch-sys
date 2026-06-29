@@ -27,15 +27,15 @@ const Landing = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-rose-600 flex items-center justify-center shadow-lg shadow-red-500/25">
-                <Heart className="w-5 h-5 text-white fill-white/20" />
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shadow-red-500/25">
+                  <img className="w-10 h-10 rounded-full" src="/final-logo.jpg" alt="" />
               </div>
               <div>
                 <h1 className="text-lg font-bold text-gray-900 leading-tight">
-                  ZP<span className="text-red-600">HR</span>
+                  Zamboanga Puericulture Maternity<span className="text-red-600"> & Children's Hospital</span>
                 </h1>
                 <p className="text-[10px] text-gray-500 uppercase tracking-wider font-medium">
-                  Hospital HR System
+                  HR, Payroll and Biometric System
                 </p>
               </div>
             </div>

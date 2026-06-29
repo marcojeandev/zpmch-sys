@@ -1,0 +1,4 @@
+const ActivityLogs = () => {
+  return <div className="p-6"><h1 className="text-2xl font-bold">ActivityLogs</h1></div>;
+};
+export default ActivityLogs;
