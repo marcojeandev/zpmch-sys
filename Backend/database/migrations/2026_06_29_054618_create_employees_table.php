@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('employees', function (Blueprint $table) {
-           $table->id();
+            $table->id();
             $table->string('employee_id')->unique();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('department_id')->nullable()->constrained('departments')->nullOnDelete();
@@ -21,10 +21,6 @@ return new class extends Migration
             $table->foreignId('supervisor_id')->nullable()->constrained('employees')->nullOnDelete();
 
             // Personal Information
-            $table->string('first_name');
-            $table->string('middle_name')->nullable();
-            $table->string('last_name');
-            $table->string('suffix')->nullable();
             $table->string('nickname')->nullable();
             $table->enum('gender', ['Male', 'Female'])->nullable();
             $table->enum('civil_status', ['Single', 'Married', 'Divorced', 'Widowed', 'Separated'])->nullable();

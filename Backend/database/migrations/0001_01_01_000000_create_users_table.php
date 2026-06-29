@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['admin', 'hr_officer', 'hr_staff', 'head', 'employee',])->default('employee');
+            $table->enum('role', ['admin', 'hr_officer', 'hr_staff', 'head', 'employee', 'super_admin'])->default('employee');
             $table->enum('account_status', ['active', 'inactive', 'locked', 'pending', 'deactivated'])->default('pending');
             $table->string('profile_picture')->nullable();
             $table->timestamp('last_login_at')->nullable();
