@@ -13,7 +13,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'employee' => \App\Http\Middleware\employee_middleware::class,
+            'head' => \App\Http\Middleware\HeadMiddleware::class,
+            'hrOfficer' => \App\Http\Middleware\HrOfficerMiddleware::class,
+            'hrStaff' => \App\Http\Middleware\HrStaffMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
